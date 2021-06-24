@@ -72,46 +72,71 @@ const Contact = () => {
               </tr>
             </thead>
             <tbody>
-              {currentPosts
-                .filter((employee) => {
-                  if (setSearchItem === "") {
-                    return employee;
-                  }
-                  if (
-                    employee.name
-                      .toLowerCase()
-                      .includes(searchItem.toLowerCase())
-                  ) {
-                    return employee;
-                  }
-                })
-                .map((employee, i) => {
-                  return (
-                    <tr key={employee.id}>
-                      <td>{employee.name}</td>
-                      <td>{employee.email}</td>
-                      <td>{employee.mobile}</td>
-                      <td>
-                        <a
-                          href="!#"
-                          className="btn btn-primary text-white"
-                          onClick={() => {
-                            setCurrentId(employee.id);
-                          }}
-                        >
-                          <i className="fa fa-pencil" />
-                        </a>
-                        <a
-                          href="!#"
-                          className="btn btn-danger text-white"
-                          onClick={() => removeList(employee.id)}
-                        >
-                          <i className="fa fa-trash" />
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
+              {searchItem === ""
+                ? currentPosts.map((employee) => {
+                    return (
+                      <tr key={employee.id}>
+                        <td>{employee.name}</td>
+                        <td>{employee.email}</td>
+                        <td>{employee.mobile}</td>
+                        <td>
+                          <a
+                            href="!#"
+                            className="btn btn-primary text-white"
+                            onClick={() => {
+                              setCurrentId(employee.id);
+                            }}
+                          >
+                            <i className="fa fa-pencil" />
+                          </a>
+                          <a
+                            href="!#"
+                            className="btn btn-danger text-white"
+                            onClick={() => removeList(employee.id)}
+                          >
+                            <i className="fa fa-trash" />
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : employeeList
+                    .filter((employee) => {
+                      if (
+                        employee.name
+                          .toLowerCase()
+                          .includes(searchItem.toLowerCase())
+                      ) {
+                        return employee;
+                      }
+                    })
+                    .map((employee) => {
+                      return (
+                        <tr key={employee.id}>
+                          <td>{employee.name}</td>
+                          <td>{employee.email}</td>
+                          <td>{employee.mobile}</td>
+                          <td>
+                            <a
+                              href="!#"
+                              className="btn btn-primary text-white"
+                              onClick={() => {
+                                setCurrentId(employee.id);
+                              }}
+                            >
+                              <i className="fa fa-pencil" />
+                            </a>
+                            <a
+                              href="!#"
+                              className="btn btn-danger text-white"
+                              onClick={() => removeList(employee.id)}
+                            >
+                              <i className="fa fa-trash" />
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })}
             </tbody>
           </table>
           <Pagination
