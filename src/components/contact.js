@@ -98,7 +98,6 @@ const Contact = () => {
                         <td>{employee.mobile}</td>
                         <td>
                           <a
-                            href="!#"
                             className="btn btn-primary text-white"
                             onClick={() => {
                               setCurrentId(employee.id);
@@ -107,7 +106,6 @@ const Contact = () => {
                             <i className="fa fa-pencil" />
                           </a>
                           <a
-                            href="!#"
                             className="btn btn-danger text-white"
                             onClick={() => removeList(employee.id)}
                           >
