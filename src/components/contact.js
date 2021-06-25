@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContactForm from "./contactform";
 import Pagination from "./pagination";
 
@@ -7,7 +7,9 @@ const Contact = () => {
   const [currentId, setCurrentId] = useState("");
   const [searchItem, setSearchItem] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3);
+  const [postsPerPage, setPostsPerPage] = useState(3);
+  const [nameNotFound, setNameNotFound] = useState(true);
+
   const addoredit = (obj) => {
     const newItem = obj;
 
@@ -27,11 +29,17 @@ const Contact = () => {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = employeeList.slice(indexOfFirstPost, indexOfLastPost);
+  const whenFilter = employeeList.filter((employee) => {
+    if (employee.name.toLowerCase().includes(searchItem.toLowerCase())) {
+      return employee;
+    }
+  });
 
   //CHANGE PAGE
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   return (
     <>
       <div className="jumbotron jumbotron-fluid">
@@ -50,16 +58,26 @@ const Contact = () => {
           />
         </div>
         <div className="col-md-7">
-          <div>employee list</div>
-          <div className="input-group search">
-            <div className="form-outline">
+          <div className="d-flex flex-lg-row">
+            <div>
+              <span>list per page</span>
               <input
-                type="search"
-                id="form1"
-                className="form-control"
-                placeholder="search using name"
-                onChange={(e) => setSearchItem(e.target.value)}
-              />
+                type="number"
+                onChange={(e) => setPostsPerPage(+e.target.value)}
+                className="pag-list"
+              ></input>
+            </div>
+            <div className="input-group search">
+              <div className="form-outline">
+                <span>search filter</span>
+                <input
+                  type="search"
+                  id="form1"
+                  className="form-control"
+                  placeholder="search using name"
+                  onChange={(e) => setSearchItem(e.target.value)}
+                />
+              </div>
             </div>
           </div>
           <table className="table table=borderless table-stripped">
@@ -100,48 +118,41 @@ const Contact = () => {
                       </tr>
                     );
                   })
-                : employeeList
-                    .filter((employee) => {
-                      if (
-                        employee.name
-                          .toLowerCase()
-                          .includes(searchItem.toLowerCase())
-                      ) {
-                        return employee;
-                      }
-                    })
-                    .map((employee) => {
-                      return (
-                        <tr key={employee.id}>
-                          <td>{employee.name}</td>
-                          <td>{employee.email}</td>
-                          <td>{employee.mobile}</td>
-                          <td>
-                            <a
-                              href="!#"
-                              className="btn btn-primary text-white"
-                              onClick={() => {
-                                setCurrentId(employee.id);
-                              }}
-                            >
-                              <i className="fa fa-pencil" />
-                            </a>
-                            <a
-                              href="!#"
-                              className="btn btn-danger text-white"
-                              onClick={() => removeList(employee.id)}
-                            >
-                              <i className="fa fa-trash" />
-                            </a>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                : whenFilter.map((employee) => {
+                    return (
+                      <tr key={employee.id}>
+                        <td>{employee.name}</td>
+                        <td>{employee.email}</td>
+                        <td>{employee.mobile}</td>
+                        <td>
+                          <a
+                            className="btn btn-primary text-white"
+                            onClick={() => {
+                              setCurrentId(employee.id);
+                            }}
+                          >
+                            <i className="fa fa-pencil" />
+                          </a>
+                          <a
+                            className="btn btn-danger text-white"
+                            onClick={() => removeList(employee.id)}
+                          >
+                            <i className="fa fa-trash" />
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
+            {searchItem.length >= 1 && whenFilter.length === 0 ? (
+              <p className="pg-not-found">page not found</p>
+            ) : null}
           </table>
           <Pagination
             postsPerPage={postsPerPage}
-            totalPost={employeeList.length}
+            totalPost={
+              searchItem === "" ? employeeList.length : whenFilter.length
+            }
             paginate={paginate}
           />
         </div>

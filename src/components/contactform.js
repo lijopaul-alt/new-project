@@ -9,6 +9,8 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
   };
   const [id, setID] = useState(0);
   const [fromValue, setFormvalue] = useState(initialState);
+  const [NameError, setNameError] = useState(false);
+  const [MobNumError, setMobNumError] = useState(false);
 
   const inputChange = (e) => {
     e.preventDefault();
@@ -25,9 +27,30 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    addoredit(fromValue);
+    if (fromValue.name.length < 4 && fromValue.mobile.toString().length < 10) {
+      setMobNumError(true);
+      return setNameError(true);
+    } else if (
+      fromValue.mobile.toString().length < 10 &&
+      fromValue.name.length >= 4
+    ) {
+      setNameError(false);
+      return setMobNumError(true);
+    } else if (
+      fromValue.mobile.toString().length === 10 &&
+      fromValue.name.length < 4
+    ) {
+      setMobNumError(false);
+      return setNameError(true);
+    } else if (
+      fromValue.name.length >= 4 &&
+      fromValue.mobile.toString().length === 10
+    )
+      addoredit(fromValue);
     setID(id + 1);
     clearInput();
+    setNameError(false);
+    setMobNumError(false);
   };
 
   useEffect(() => {
@@ -64,6 +87,9 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
           name="name"
         />
       </div>
+      {NameError ? (
+        <span className="error">must contain atleast four character</span>
+      ) : null}
       <div className="input-group input-group-sm mb-3">
         <div className="input-group-prepend">
           <span className="input-group-text" id="inputGroup-sizing-sm">
@@ -71,7 +97,7 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
           </span>
         </div>
         <input
-          type="text"
+          type="email"
           className="form-control"
           aria-label="Small"
           aria-describedby="inputGroup-sizing-sm"
@@ -88,7 +114,8 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
           </span>
         </div>
         <input
-          type="text"
+          type="number"
+          pattern={0 - 9}
           className="form-control"
           aria-label="Small"
           aria-describedby="inputGroup-sizing-sm"
@@ -98,6 +125,9 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
           onChange={inputChange}
         />
       </div>
+      {MobNumError ? (
+        <span className="error">must contain only 10 num</span>
+      ) : null}
 
       <button
         type="submit"

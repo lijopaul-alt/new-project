@@ -17,3 +17,21 @@ code {
 .table {
   margin-top: 20px;
 }
+.pag-list {
+  width: 90px;
+}
+.search {
+  margin-left: 50px;
+}
+.pg-not-found {
+  margin-top: 50px;
+  margin-left: 50px;
+  color: red;
+  font-size: 30px;
+}
+.error {
+  position: relative;
+  bottom: 15px;
+  font-size: 12px;
+  color: red;
+}
