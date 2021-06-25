@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ContactForm from "./contactform";
 import Pagination from "./pagination";
 
@@ -8,7 +8,6 @@ const Contact = () => {
   const [searchItem, setSearchItem] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(3);
-  const [nameNotFound, setNameNotFound] = useState(true);
 
   const addoredit = (obj) => {
     const newItem = obj;
@@ -145,7 +144,7 @@ const Contact = () => {
                   })}
             </tbody>
             {searchItem.length >= 1 && whenFilter.length === 0 ? (
-              <p className="pg-not-found">page not found</p>
+              <p className="pg-not-found">Name not found</p>
             ) : null}
           </table>
           <Pagination
