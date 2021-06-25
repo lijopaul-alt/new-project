@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Form from "./Form";
 
 const ContactForm = ({ addoredit, currentId, employeeList }) => {
   const initialState = {
@@ -25,34 +26,6 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
     setFormvalue(initialState);
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (fromValue.name.length < 4 && fromValue.mobile.toString().length < 10) {
-      setMobNumError(true);
-      return setNameError(true);
-    } else if (
-      fromValue.mobile.toString().length < 10 &&
-      fromValue.name.length >= 4
-    ) {
-      setNameError(false);
-      return setMobNumError(true);
-    } else if (
-      fromValue.mobile.toString().length === 10 &&
-      fromValue.name.length < 4
-    ) {
-      setMobNumError(false);
-      return setNameError(true);
-    } else if (
-      fromValue.name.length >= 4 &&
-      fromValue.mobile.toString().length === 10
-    )
-      addoredit(fromValue);
-    setID(id + 1);
-    clearInput();
-    setNameError(false);
-    setMobNumError(false);
-  };
-
   useEffect(() => {
     let findItem;
     if (currentId === "") {
@@ -69,7 +42,16 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
   }, [currentId, employeeList]);
 
   return (
-    <form autoComplete="off" onSubmit={handleFormSubmit} className="form">
+    // <form autoComplete="off" onSubmit={handleFormSubmit} className="form">
+    <Form
+      fromValue={fromValue}
+      setNameError={setNameError}
+      setMobNumError={setMobNumError}
+      addoredit={addoredit}
+      clearInput={clearInput}
+      setID={setID}
+      id={id}
+    >
       <div className="input-group input-group-sm mb-3">
         <div className="input-group-prepend">
           <span className="input-group-text" id="inputGroup-sizing-sm">
@@ -136,7 +118,8 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
       >
         SAVE
       </button>
-    </form>
+      {/* // </form> */}
+    </Form>
   );
 };
 
