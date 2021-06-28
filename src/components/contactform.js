@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import Input from "./Input";
 import Form from "./Form";
 
-const ContactForm = ({ addoredit, currentId, employeeList }) => {
+const ContactForm = ({ addoredit, currentId, employeeList, setCurrentId }) => {
   const initialState = {
     name: "",
     email: "",
@@ -12,13 +13,16 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
   const [fromValue, setFormvalue] = useState(initialState);
   const [NameError, setNameError] = useState(false);
   const [MobNumError, setMobNumError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [existingEmail, setExistingEmail] = useState(false);
+  const [listOfEmployees, setListOfemployees] = useState([]);
 
   const inputChange = (e) => {
     e.preventDefault();
     setFormvalue({
       ...fromValue,
       [e.target.name]: e.target.value,
-      id: id,
+      id: currentId === "" ? id : currentId,
     });
   };
 
@@ -39,6 +43,7 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
         ...findItem,
       });
     }
+    setListOfemployees(employeeList);
   }, [currentId, employeeList]);
 
   return (
@@ -51,62 +56,42 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
       clearInput={clearInput}
       setID={setID}
       id={id}
+      currentId={currentId}
+      setCurrentId={setCurrentId}
+      employeeList={employeeList}
+      setEmailError={setEmailError}
+      listOfEmployees={listOfEmployees}
+      setExistingEmail={setExistingEmail}
     >
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            <i className="fa fa-user" />
-          </span>
-        </div>
-        <input
-          type="text"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          placeholder="your name"
-          value={fromValue.name}
-          onChange={inputChange}
-          name="name"
-        />
-      </div>
+      <Input
+        type={"text"}
+        placeholder={"your name"}
+        name={"name"}
+        value={fromValue.name}
+        inputChange={inputChange}
+      />
       {NameError ? (
         <span className="error">must contain atleast four character</span>
       ) : null}
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            <i className="fa fa-envelope" />
-          </span>
-        </div>
-        <input
-          type="email"
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          placeholder="your email"
-          value={fromValue.email}
-          name="email"
-          onChange={inputChange}
-        />
-      </div>
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text" id="inputGroup-sizing-sm">
-            <i className="fa fa-phone" />
-          </span>
-        </div>
-        <input
-          type="number"
-          pattern={0 - 9}
-          className="form-control"
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          placeholder="your mobile number"
-          value={fromValue.mobile}
-          name="mobile"
-          onChange={inputChange}
-        />
-      </div>
+      <Input
+        type={"email"}
+        placeholder={"your email"}
+        name={"email"}
+        value={fromValue.email}
+        inputChange={inputChange}
+      />
+      {emailError ? <span className="error">invalid Email</span> : null}
+      {existingEmail ? (
+        <span className="error"> Email alreay exists</span>
+      ) : null}
+      <Input
+        type={"number"}
+        placeholder={"your mobile number"}
+        name={"mobile"}
+        value={fromValue.mobile}
+        inputChange={inputChange}
+      />
+
       {MobNumError ? (
         <span className="error">must contain only 10 num</span>
       ) : null}
@@ -116,9 +101,8 @@ const ContactForm = ({ addoredit, currentId, employeeList }) => {
         value="save"
         className="btn btn=primary btn-block bg-primary text-white w-100"
       >
-        SAVE
+        {currentId === "" ? "SAVE" : "UPDATE"}
       </button>
-      {/* // </form> */}
     </Form>
   );
 };
