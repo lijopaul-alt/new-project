@@ -19,6 +19,7 @@ const Contact = () => {
   let [previousPage, setPreviousPage] = useState("");
   const searchInput = React.useRef(null);
 
+  //TO ADD OR REMOVE ITEM FROM LIST
   const addoredit = (obj) => {
     if (currentId === "") {
       const newItem = obj;
@@ -41,11 +42,13 @@ const Contact = () => {
           return emp;
         }
       });
-      console.log(newItem, upadtedList);
+
       setCurrentId("");
       return setEmployeeList([...upadtedList]);
     }
   };
+
+  //REMOVE ITEM FROM LIST FUNCTION
   let removedList;
   const removeList = (id) => {
     removedList = employeeList.filter((emp) => {
@@ -55,6 +58,7 @@ const Contact = () => {
     setEmployeeList([...removedList]);
   };
 
+  // MODAL FUNCTIONS
   const displayModal = (id) => {
     setOpenmodal(true);
     setidToDelete(id);
@@ -71,6 +75,8 @@ const Contact = () => {
     handleClose();
     setidToDelete("");
   };
+
+  //RESTOR THE CURRENT PAGE WHILE SEARCHING
   const whileSearching = (value) => {
     setSearchItem(value);
 
@@ -97,10 +103,6 @@ const Contact = () => {
   const postsPerPages = (e) => {
     setPostsPerPage(e);
   };
-
-  // const resetPageNum = () => {
-  //
-  // };
 
   useEffect(() => {
     if (
@@ -238,10 +240,10 @@ const Contact = () => {
                     );
                   })}
             </tbody>
-            {searchItem.length >= 1 && whenFilter.length === 0 ? (
-              <p className="pg-not-found">Name not found</p>
-            ) : null}
           </table>
+          {searchItem.length >= 1 && whenFilter.length === 0 ? (
+            <p className="pg-not-found">Name not found</p>
+          ) : null}
           <Pagination
             postsPerPage={postsPerPage}
             totalPost={
