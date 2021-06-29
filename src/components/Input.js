@@ -1,10 +1,10 @@
 import React from "react";
-const Input = ({ type, placeholder, name, value, inputChange }) => {
+const Input = ({ type, placeholder, name, value, inputChange, icon }) => {
   return (
     <div className="input-group input-group-sm mb-3">
       <div className="input-group-prepend">
         <span className="input-group-text" id="inputGroup-sizing-sm">
-          <i className="fa fa-user" />
+          <i className={icon} />
         </span>
       </div>
       <input

@@ -26,15 +26,21 @@ const Form = (props) => {
     const emailValidator =
       /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
-    console.log(emailValidator.test(fromValue.email));
     let validity;
 
-    for (const key in fromValue) {
-      if (fromValue[key] === "") {
+    if (
+      fromValue.name === "" &&
+      fromValue.email === "" &&
+      fromValue.mobile === ""
+    ) {
+      if (fromValue.id !== "") {
+        setID(id);
         validity = true;
-      } else {
-        validity = false;
+      } else if (fromValue.id === "") {
+        validity = true;
       }
+    } else {
+      validity = false;
     }
 
     if (validity) {
@@ -42,9 +48,10 @@ const Form = (props) => {
       setEmailError(true);
       return setNameError(true);
     }
+
     switch (
       fromValue.email !== "" ||
-      fromValue.mobile.toString().length >= 1 ||
+      fromValue.mobile.toString() >= 1 ||
       fromValue.name !== ""
     ) {
       case fromValue.mobile.toString().length === 10 &&

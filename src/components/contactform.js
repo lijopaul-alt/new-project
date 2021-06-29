@@ -78,6 +78,7 @@ const ContactForm = ({
         name={"name"}
         value={fromValue.name}
         inputChange={inputChange}
+        icon={"fa fa-user"}
       />
       {NameError ? (
         <span className="error">must contain atleast four character</span>
@@ -88,6 +89,7 @@ const ContactForm = ({
         name={"email"}
         value={fromValue.email}
         inputChange={inputChange}
+        icon={"fa fa-envelope"}
       />
       {emailError ? <span className="error">invalid Email</span> : null}
       {existingEmail ? (
@@ -99,6 +101,7 @@ const ContactForm = ({
         name={"mobile"}
         value={fromValue.mobile}
         inputChange={inputChange}
+        icon={"fa fa-phone"}
       />
 
       {MobNumError ? (
