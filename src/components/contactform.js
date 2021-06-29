@@ -2,7 +2,20 @@ import React, { useState, useEffect } from "react";
 import Input from "./Input";
 import Form from "./Form";
 
-const ContactForm = ({ addoredit, currentId, employeeList, setCurrentId }) => {
+const ContactForm = ({
+  addoredit,
+  currentId,
+  employeeList,
+  setCurrentId,
+  existingEmail,
+  setExistingEmail,
+  NameError,
+  setNameError,
+  emailError,
+  setEmailError,
+  MobNumError,
+  setMobNumError,
+}) => {
   const initialState = {
     name: "",
     email: "",
@@ -11,10 +24,7 @@ const ContactForm = ({ addoredit, currentId, employeeList, setCurrentId }) => {
   };
   const [id, setID] = useState(0);
   const [fromValue, setFormvalue] = useState(initialState);
-  const [NameError, setNameError] = useState(false);
-  const [MobNumError, setMobNumError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [existingEmail, setExistingEmail] = useState(false);
+
   const [listOfEmployees, setListOfemployees] = useState([]);
 
   const inputChange = (e) => {
@@ -47,7 +57,6 @@ const ContactForm = ({ addoredit, currentId, employeeList, setCurrentId }) => {
   }, [currentId, employeeList]);
 
   return (
-    // <form autoComplete="off" onSubmit={handleFormSubmit} className="form">
     <Form
       fromValue={fromValue}
       setNameError={setNameError}

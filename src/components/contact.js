@@ -16,7 +16,12 @@ const Contact = () => {
   const [postsPerPage, setPostsPerPage] = useState(3);
   const [idToDelete, setidToDelete] = useState("");
   const [openModal, setOpenmodal] = useState(false);
-  let [previousPage, setPreviousPage] = useState("");
+  const [previousPage, setPreviousPage] = useState("");
+  const [existingEmail, setExistingEmail] = useState(false);
+  const [NameError, setNameError] = useState(false);
+  const [MobNumError, setMobNumError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+
   const searchInput = React.useRef(null);
 
   //TO ADD OR REMOVE ITEM FROM LIST
@@ -46,6 +51,15 @@ const Contact = () => {
       setCurrentId("");
       return setEmployeeList([...upadtedList]);
     }
+  };
+
+  // UPDATE METHOD
+  const updateMethod = (id) => {
+    setCurrentId(id);
+    setExistingEmail(false);
+    setNameError(false);
+    setEmailError(false);
+    setMobNumError(false);
   };
 
   //REMOVE ITEM FROM LIST FUNCTION
@@ -150,6 +164,14 @@ const Contact = () => {
             currentId={currentId}
             employeeList={employeeList}
             setCurrentId={setCurrentId}
+            existingEmail={existingEmail}
+            setExistingEmail={setExistingEmail}
+            NameError={NameError}
+            setNameError={setNameError}
+            MobNumError={MobNumError}
+            setMobNumError={setMobNumError}
+            emailError={emailError}
+            setEmailError={setEmailError}
           />
         </div>
         <div className="col-md-7">
@@ -199,7 +221,7 @@ const Contact = () => {
                           <span
                             className="btn btn-primary text-white"
                             onClick={() => {
-                              setCurrentId(employee.id);
+                              updateMethod(employee.id);
                             }}
                           >
                             <i className="fa fa-pencil" />
@@ -224,7 +246,7 @@ const Contact = () => {
                           <span
                             className="btn btn-primary text-white"
                             onClick={() => {
-                              setCurrentId(employee.id);
+                              updateMethod(employee.id);
                             }}
                           >
                             <i className="fa fa-pencil" />
